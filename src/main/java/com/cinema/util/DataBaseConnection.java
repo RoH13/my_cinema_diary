@@ -9,6 +9,6 @@ public class DataBaseConnection {
         String url =  "jdbc:postgresql://localhost:5432/cinemadiary";
         String name = "postgres";
         String password = "postgres";
-        return DriverManager.getConnection(url, name, password);
+        return DriverManager.getConnection(url, name, password) ;
     }
 }
