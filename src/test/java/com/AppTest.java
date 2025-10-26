@@ -4,12 +4,21 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.sql.Connection;
+import com.cinema.util.DataBaseConnection;
+
 /**
  * Unit test for simple App.
  */
 public class AppTest 
     extends TestCase
 {
+    /*public void shouldGetJdbcConnection() {
+        try(Connection connection = com.cinema.util.DataBaseConnection.getBaseConnection()){
+            assertTrue(connection.isValid(1));
+            assertFalse(connection.isClosed());
+        };
+    }*/
     /**
      * Create the test case
      *

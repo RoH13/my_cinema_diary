@@ -36,7 +36,7 @@ public class Movie {
         this.raiting = raiting;
     }
 
-    public void setDirector_firstname(String director) {
+    public void setDirector(String director) {
         this.director = director;
     }
 
@@ -52,5 +52,18 @@ public class Movie {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", director='" + director + '\'' +
+                ", genre='" + genre + '\'' +
+                ", year=" + year +
+                ", duration=" + duration +
+                ", raiting=" + raiting +
+                '}';
     }
 }
