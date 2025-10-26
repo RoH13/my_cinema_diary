@@ -8,10 +8,10 @@ public class Movie {
     private String genre;
     private int year;
     private int duration;
-    private int raiting;
+    private int rating;
 
-    public Movie(int id, String title, String director, String genre, int year, int duration, int raiting) {
-        this.raiting = raiting;
+    public Movie(int id, String title, String director, String genre, int year, int duration, int rating) {
+        this.rating = rating;
         this.genre = genre;
         this.year = year;
         this.duration = duration;
@@ -30,10 +30,10 @@ public class Movie {
 
 
 
-    public void setRaiting(int raiting) {
-        if (raiting < 1 || raiting > 10)
+    public void setRating(int rating) {
+        if (rating < 1 || rating > 10)
             throw new IllegalArgumentException("Value can be in range(1,10");
-        this.raiting = raiting;
+        this.rating = rating;
     }
 
     public void setDirector(String director) {
@@ -63,7 +63,7 @@ public class Movie {
                 ", genre='" + genre + '\'' +
                 ", year=" + year +
                 ", duration=" + duration +
-                ", raiting=" + raiting +
+                ", raiting=" + rating +
                 '}';
     }
 }
