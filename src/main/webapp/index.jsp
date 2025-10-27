@@ -58,9 +58,9 @@
     <p style="text-align: center;">Управление вашей коллекцией фильмов и сериалов</p>
 
     <div class="menu">
-        <a href="movies?action=showAddForm">➕ Добавить фильм</a>
+        <a href="/addmovie">➕ Добавить фильм</a>
         <a href="series?action=showAddForm">📺 Добавить сериал</a>
-        <a href="movies?action=list">🎞️ Список фильмов</a>
+        <a href="/movies">🎞️ Список фильмов</a>
         <a href="series?action=list">📡 Список сериалов</a>
     </div>
 
