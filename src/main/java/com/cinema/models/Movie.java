@@ -1,4 +1,4 @@
-package com.cinema.model;
+package com.cinema.models;
 
 public class Movie {
 
@@ -52,6 +52,34 @@ public class Movie {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     @Override

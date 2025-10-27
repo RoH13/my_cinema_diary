@@ -1,7 +1,7 @@
 package com.cinema.controller;
 
 import com.cinema.dao.MovieDAO;
-import com.cinema.model.Movie;
+import com.cinema.models.Movie;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/movies")
