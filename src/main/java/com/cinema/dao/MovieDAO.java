@@ -22,9 +22,9 @@ public class MovieDAO {
     final static String INSERTMOVIE = "INSERT INTO movie (title, director, genre, date_year, duration, rating) VALUES (?,?,?,?,?,?)";
     final static String SELECTALL = "select * from Movie;";
     final static String SORTBYRATING = "select * from movie order by rating ?;";
-    final static String SORTBYTITLE = "select * from movie order by title ?;
-    final static String SORTBYDIRECT = "select * from movie order by rating ?;
-    final static String SORTBYYEAR = "select * from movie order by year ?;
+    final static String SORTBYTITLE = "select * from movie order by title ?;";
+    final static String SORTBYDIRECT = "select * from movie order by rating ?;";
+    final static String SORTBYYEAR = "select * from movie order by year ?;";
 
 
 
@@ -66,7 +66,7 @@ public class MovieDAO {
         return getListFromResultSet(rs);
     }
 
-    public Movie insertMovie(String title, String name, String genre, int year, int duration, int rating) throws SQLException {
+    public static Movie insertMovie(String title, String name, String genre, int year, int duration, int rating) throws SQLException {
         int id = getNextId();
         PreparedStatement ps = connection.prepareStatement(INSERTMOVIE);
         ps.setString(1, title);
@@ -79,7 +79,7 @@ public class MovieDAO {
 
         return new Movie(id, title, name, genre, year, duration, rating);
     }
-    public int getNextId() throws SQLException {
+    public static int getNextId() throws SQLException {
         PreparedStatement ps = connection.prepareStatement(NEXTId);
         ResultSet rs = ps.executeQuery();
         int res = rs.getInt(1);
