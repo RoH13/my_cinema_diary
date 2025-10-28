@@ -6,6 +6,7 @@ package com.cinema.service;
  */
 import com.cinema.dao.*;
 import com.cinema.models.Director;
+import com.cinema.models.Genre;
 
 import java.sql.SQLException;
 
@@ -18,8 +19,11 @@ public class App
       // MovieDAO.updateRating(9,10);
       // System.out.println(MovieDAO.findById(9));
        // System.out.println(MovieDAO.findAll());
-       System.out.println(DirectorDAO.findALL());
+      /* System.out.println(DirectorDAO.findALL());
         DirectorDAO.save(new Director(2, "Alex", "Balabanov"));
-        System.out.println(DirectorDAO.findALL());
+        System.out.println(DirectorDAO.findALL());*/
+        System.out.println(GenreDAO.findAll());
+        GenreDAO.save(new Genre(4, "comedy"));
+        System.out.println(GenreDAO.findAll());
     }
 }

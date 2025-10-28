@@ -20,11 +20,19 @@ public class DirectorDAO {
             throw new RuntimeException(e);
         }
     }
+    private static final String FIND_ALL_SQL = "SELECT * FROM director";
+    private static final String INSERT_SQL =
+            "INSERT INTO director (first_name, second_name) VALUES (?, ?) " +
+                    "ON CONFLICT (first_name, second_name) DO NOTHING";
+    private static final String DELETE_SQL = "DELETE FROM director WHERE id = ?";
+    private static final String FIND_BY_ID_SQL = "SELECT * FROM director WHERE id = ?";
+
+
     public static List<Director> findALL() throws SQLException {
-        final String command = "select * from director";
-        PreparedStatement ps = connection.prepareStatement(command);
-        ResultSet rs = ps.executeQuery();
-        return getListFromResultSet(rs);
+        try(PreparedStatement ps = connection.prepareStatement(FIND_ALL_SQL)) {
+            ResultSet rs = ps.executeQuery();
+            return getListFromResultSet(rs);
+        }
     }
 
     public static List<Director> getListFromResultSet(ResultSet rs) throws SQLException {
@@ -39,26 +47,30 @@ public class DirectorDAO {
     }
 
     public static void save(Director director) throws SQLException {
-        final String command = "insert into director (first_name, second_name) " +
-       " values (?, ?)" +
-       " on conflict (first_name,second_name) do nothing;";
-        PreparedStatement ps = connection.prepareStatement(command);
-        ps.setString(1, director.getFirstName());
-        ps.setString(2, director.getSecondName());
-        ps.execute();
+        try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+            ps.setString(1, director.getFirstName());
+            ps.setString(2, director.getSecondName());
+            ps.execute();
+        }
     }
     public static void delete(int id) throws SQLException {
-        final String command = "delete from director when id = ?";
-        PreparedStatement ps = connection.prepareStatement(command);
-        ps.setInt(1, id);
-        ps.execute();
+        try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+            ps.setInt(1, id);
+            ps.execute();
+        }
     }
 
     public static Director getDirectorById(int id) throws SQLException {
-        final String command = "select from director where id = ?";
-        PreparedStatement ps = connection.prepareStatement(command);
-        ResultSet rs = ps.executeQuery();
-        return getListFromResultSet(rs).get(0);
+        try(PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
+            ps.setInt(1, id);
+            try(ResultSet rs = ps.executeQuery()) {
+                List<Director> directors = getListFromResultSet(rs);
+                if (directors.isEmpty()){
+                    throw new SQLException("Director not found with id: " + id);
+                }
+                return directors.get(0);
+            }
+        }
     }
 
 }
