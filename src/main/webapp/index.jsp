@@ -59,9 +59,9 @@
 
     <div class="menu">
         <a href="/addmovie">➕ Добавить фильм</a>
-        <a href="series?action=showAddForm">📺 Добавить сериал</a>
+        <a href="/addtvshow">📺 Добавить сериал</a>
         <a href="/movies">🎞️ Список фильмов</a>
-        <a href="series?action=list">📡 Список сериалов</a>
+        <a href="/tvshows">📡 Список сериалов</a>
     </div>
 
     <div style="text-align: center; margin-top: 30px;">

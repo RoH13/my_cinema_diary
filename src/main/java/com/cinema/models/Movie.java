@@ -4,13 +4,13 @@ public class Movie {
 
     private int id;
     private String title;
-    private String director;
-    private String genre;
+    private Director director;
+    private Genre genre;
     private int year;
     private int duration;
     private int rating;
 
-    public Movie(int id, String title, String director, String genre, int year, int duration, int rating) {
+    public Movie(int id, String title, Director director, Genre genre, int year, int duration, int rating) {
         this.rating = rating;
         this.genre = genre;
         this.year = year;
@@ -36,7 +36,7 @@ public class Movie {
         this.rating = rating;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(Director director) {
         this.director = director;
     }
 
@@ -46,7 +46,7 @@ public class Movie {
         this.title = title;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
@@ -62,7 +62,7 @@ public class Movie {
         return rating;
     }
 
-    public String getDirector() {
+    public Director getDirector() {
         return director;
     }
 
@@ -70,7 +70,7 @@ public class Movie {
         return title;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
@@ -87,11 +87,11 @@ public class Movie {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", director='" + director + '\'' +
-                ", genre='" + genre + '\'' +
+                ", director=" + director +
+                ", genre=" + genre +
                 ", year=" + year +
                 ", duration=" + duration +
-                ", raiting=" + rating +
+                ", rating=" + rating +
                 '}';
     }
 }

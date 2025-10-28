@@ -46,7 +46,7 @@
     </c:forEach>
 
     <%-- Если список пуст --%>
-    <c:if test="${empty users}">
+    <c:if test="${empty movies}">
         <tr>
             <td colspan="4" style="text-align: center;">Нет данных</td>
         </tr>
