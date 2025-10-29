@@ -12,30 +12,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DirectorDAO {
-    static Connection connection;
-    static {
+    Connection connection;
+    public DirectorDAO() {
         try {
-            connection = DataBaseConnection.getConnection();
-        }catch (Exception e) {
+           connection = DataBaseConnection.getConnection();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     private static final String FIND_ALL_SQL = "SELECT * FROM director";
     private static final String INSERT_SQL =
             "INSERT INTO director (first_name, second_name) VALUES (?, ?) " +
                     "ON CONFLICT (first_name, second_name) DO NOTHING";
     private static final String DELETE_SQL = "DELETE FROM director WHERE id = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM director WHERE id = ?";
+    private static final String FIND_ID_SQL = "SELECT id from director where first_name = ? and second_name = ?";
 
-
-    public static List<Director> findALL() throws SQLException {
+    public List<Director> findALL() throws SQLException {
         try(PreparedStatement ps = connection.prepareStatement(FIND_ALL_SQL)) {
             ResultSet rs = ps.executeQuery();
             return getListFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static List<Director> getListFromResultSet(ResultSet rs) throws SQLException {
+    public List<Director> getListFromResultSet(ResultSet rs) throws SQLException {
         List<Director> res = new ArrayList<Director>();
         while(rs.next()) {
             int id = rs.getInt("id");
@@ -46,21 +49,30 @@ public class DirectorDAO {
         return res;
     }
 
-    public static void save(Director director) throws SQLException {
+    public void save(Director director) throws SQLException {
         try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
             ps.setString(1, director.getFirstName());
             ps.setString(2, director.getSecondName());
             ps.execute();
         }
     }
-    public static void delete(int id) throws SQLException {
+
+    public void save(String firstname, String secondname) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+            ps.setString(1, firstname);
+            ps.setString(2, secondname);
+            ps.execute();
+        }
+    }
+
+    public void delete(int id) throws SQLException {
         try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
             ps.setInt(1, id);
             ps.execute();
         }
     }
 
-    public static Director getDirectorById(int id) throws SQLException {
+    public Director getDirectorById(int id) throws SQLException {
         try(PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
             ps.setInt(1, id);
             try(ResultSet rs = ps.executeQuery()) {
@@ -70,6 +82,23 @@ public class DirectorDAO {
                 }
                 return directors.get(0);
             }
+        }
+    }
+
+
+    public int getIdByDirector(Director director) throws SQLException{
+        try(PreparedStatement ps = connection.prepareStatement(FIND_ID_SQL)) {
+            ps.setString(1, director.getFirstName());
+            ps.setString(2, director.getSecondName());
+            ResultSet rs = ps.executeQuery();
+            int res = -1;
+            while(rs.next()) {
+                res = rs.getInt("id");
+            }
+            if (res == -1) {
+                throw new SQLException("Id not found");
+            }
+            return res;
         }
     }
 

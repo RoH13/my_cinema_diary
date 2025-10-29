@@ -11,17 +11,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDAO {
-    static Connection connection;
-    static {
+    Connection connection;
+    DirectorDAO directorDao;
+    GenreDAO genreDao;
+    public MovieDAO() throws SQLException {
         try {
-            connection = DataBaseConnection.getConnection();
-        } catch (Exception e) {
+            this.connection = DataBaseConnection.getConnection();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        this.directorDao = new DirectorDAO();
+        this.genreDao = new GenreDAO();
     }
+
     public MovieDAO(Connection connection){
         this.connection = connection;
+        this.directorDao = new DirectorDAO();
+        this.genreDao = new GenreDAO();
     }
+
+
+
+
     private static final String FIND_ALL_SQL = "SELECT * FROM movie";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM movie WHERE id = ?";
     private static final String FIND_BY_TITLE_SQL = "SELECT * FROM movie WHERE title = ?";
@@ -33,14 +44,14 @@ public class MovieDAO {
 
 
 
-   public static List<Movie> findAll() throws SQLException {
+   public List<Movie> findAll() throws SQLException {
         try(Statement s = connection.createStatement();
             ResultSet rs = s.executeQuery(FIND_ALL_SQL)){
             return getListFromResultSet(rs);
         }
     }
 
-    public static Movie findById(int id) throws SQLException {
+    public Movie findById(int id) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
             ps.setInt(1, id);
             try(ResultSet rs = ps.executeQuery()) {
@@ -53,7 +64,7 @@ public class MovieDAO {
         }
     }
 
-    public static Movie findById(String title) throws SQLException {
+    public Movie findById(String title) throws SQLException {
 
         try (PreparedStatement ps = connection.prepareStatement(FIND_BY_TITLE_SQL)) {
             ps.setString(1, title);
@@ -69,59 +80,82 @@ public class MovieDAO {
 
 
 
-    public static void save(String title, Director director, Genre genre, int year, int duration, int rating) throws SQLException {
+    public void save(Movie movie) throws SQLException {
 
-        DirectorDAO.save(director);
         try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
-            ps.setString(1, title);
-            ps.setInt(2, director.getId());
-            ps.setInt(3, genre.getId());
-            ps.setInt(4, year);
-            ps.setInt(5, duration);
-            ps.setInt(6, rating);
+            ps.setString(1, movie.getTitle());
+            ps.setInt(2, movie.getDirector().getId());
+            ps.setInt(3, movie.getGenre().getId());
+            ps.setInt(4, movie.getYear());
+            ps.setInt(5, movie.getDuration());
+            ps.setInt(6, movie.getRating());
             ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error saving movie", e);
         }
     }
 
 
-    public static void delete(int id) throws SQLException {
+
+
+    public void delete(int id) throws SQLException {
        try(PreparedStatement ps = connection.prepareStatement(DELETE_BY_ID_SQL)) {
            ps.setInt(1, id);
            ps.execute();
        }
     }
 
-    public static void deleteByTitle(String title) throws SQLException {
+    public void deleteByTitle(String title) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement(FIND_BY_TITLE_SQL)) {
             ps.setString(1, title);
             ps.execute();
         }
     }
 
-   public static void updateRating(int id, int rating) throws SQLException {
+   public void updateRating(int id, int rating) throws SQLException {
         try(PreparedStatement ps = connection.prepareStatement(UPDATE_RATING_SQL)) {
             ps.setInt(1, rating);
             ps.setInt(2, id);
             ps.execute();
         }
     }
-    public static List<Movie> getListFromResultSet(ResultSet rs) throws SQLException {
+    private List<Movie> getListFromResultSet(ResultSet rs) throws SQLException {
         List<Movie> res = new ArrayList<>();
         while(rs.next()) {
             int id = rs.getInt("id");
             String title = rs.getString("title");
-            int director = rs.getInt("director");
-            int genre = rs.getInt("genre");
+            int directorId = rs.getInt("director");
+            int genreId = rs.getInt("genre");
             int year = rs.getInt("year");
             int duration = rs.getInt("duration");
             int rating = rs.getInt("rating");
-            Director dir = DirectorDAO.getDirectorById(director);
-            Genre ge = GenreDAO.getGenreById(genre);
-            res.add(new Movie(id,title,dir,ge,year,duration,rating));
+            Director director = directorDao.getDirectorById(directorId);
+            Genre genre = genreDao.getGenreById(genreId);
+            res.add(new Movie(id,title,director,genre,year,duration,rating));
         }
         return res;
     }
+    private Movie getMovieFromResultSet(ResultSet rs) throws SQLException {
+        Movie movie = new Movie();
+        movie.setId(rs.getInt("id"));
+        movie.setTitle(rs.getString("title"));
 
+
+        int directorId = rs.getInt("director");
+        int genreId = rs.getInt("genre");
+
+        Director director = directorDao.getDirectorById(directorId);
+        Genre genre = genreDao.getGenreById(genreId);
+
+        movie.setDirector(director);
+        movie.setGenre(genre);
+        movie.setYear(rs.getInt("year"));
+        movie.setDuration(rs.getInt("duration"));
+        movie.setRating(rs.getInt("rating"));
+
+
+        return movie;
+    }
 
 
 }

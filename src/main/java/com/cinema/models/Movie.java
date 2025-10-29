@@ -9,6 +9,7 @@ public class Movie {
     private int year;
     private int duration;
     private int rating;
+    public Movie(){}
 
     public Movie(int id, String title, Director director, Genre genre, int year, int duration, int rating) {
         this.rating = rating;

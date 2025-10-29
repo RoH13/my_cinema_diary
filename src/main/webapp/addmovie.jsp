@@ -9,14 +9,19 @@
 <html>
 <head>
     <title>Add new movie</title>
+    <style>
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; }
+    </style>
 </head>
 <body>
 <form action = 'addmovie' method = 'post'>
 Write the film title <br>
     <input type = 'text' name = 'title'> <br>
-Write director of the film <br>
+Choice director of the film <br>
     <input type = 'text' name = 'director'> <br>
-Write genre of the film <br>
+Choice genre of the film <br>
     <input type = 'text' name = 'genre'> <br>
 Write the year of film <br>
     <input type = 'number' name = 'year' min = '1800' > <br>
