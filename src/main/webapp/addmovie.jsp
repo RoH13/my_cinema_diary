@@ -10,26 +10,60 @@
 <head>
     <title>Add new movie</title>
     <style>
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 8px; }
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, select { padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px; }
+    input[type="submit"] { background: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+    input[type="submit"]:hover { background: #45a049; }
     </style>
 </head>
 <body>
-<form action = 'addmovie' method = 'post'>
-Write the film title <br>
-    <input type = 'text' name = 'title'> <br>
-Choice director of the film <br>
-    <input type = 'text' name = 'director'> <br>
-Choice genre of the film <br>
-    <input type = 'text' name = 'genre'> <br>
-Write the year of film <br>
-    <input type = 'number' name = 'year' min = '1800' > <br>
-Write the duration of film in minutes <br>
-    <input type = 'number' name = 'duration' min = '0'> <br>
-Write your rating of the film <br>
-    <input type = 'number' name = 'rating' min = '1' max = '10' step = '1' required> <br>
-<input type = 'submit' name = 'submit'>
+<form action = 'movie' method = 'post'>
+    <div class="form-group">
+        <label for="title">Название фильма:</label>
+        <input type='text' id="title" name='title' required>
+    </div>
+    <div class="form-group">
+        <label for="directorId">Выберите режиссера:</label>
+        <select id="directorId" name='directorId' required>
+            <option value="">-- Выберите режиссера --</option>
+            <c:forEach var="director" items="${directors}">
+                <option value="${director.id}">${director.firstName} ${director.secondName}</option>
+            </c:forEach>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="genreId">Выберите жанр:</label>
+        <select id="genreId" name='genreId' required>
+            <option value="">-- Выберите жанр --</option>
+            <c:forEach var="genre" items="${genres}">
+                <option value="${genre.id}">${genre.name}</option>
+            </c:forEach>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="year">Год выпуска:</label>
+        <input type='number' id="year" name='year' min="1888" max="2030" required>
+    </div>
+
+    <div class="form-group">
+        <label for="duration">Продолжительность (в минутах):</label>
+        <input type='number' id="duration" name='duration' min="1" max="500" required>
+    </div>
+
+    <div class="form-group">
+        <label for="rating">Ваша оценка (1-10):</label>
+        <input type='number' id="rating" name='rating' min='1' max='10' step='1' required>
+    </div>
+
+    <input type='submit' value='Добавить фильм'>
 </form>
+
+<div style="margin-top: 20px;">
+    <a href="movie?action=list">← Назад к списку фильмов</a>
+</div>
 </body>
 </html>

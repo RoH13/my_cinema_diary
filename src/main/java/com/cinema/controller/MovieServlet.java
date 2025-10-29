@@ -67,19 +67,21 @@ public class MovieServlet extends HttpServlet {
     }
 
     @Override
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
+
+
         int directorId = Integer.parseInt(req.getParameter("directorId"));
         int genreId = Integer.parseInt(req.getParameter("genreId"));
+
         int year = Integer.parseInt(req.getParameter("year"));
         int duration = Integer.parseInt(req.getParameter("duration"));
         int rating = Integer.parseInt(req.getParameter("rating"));
 
         try {
-
             Director director = directorDao.getDirectorById(directorId);
             Genre genre = genreDao.getGenreById(genreId);
-
 
             Movie movie = new Movie();
             movie.setTitle(title);
@@ -89,14 +91,12 @@ public class MovieServlet extends HttpServlet {
             movie.setDuration(duration);
             movie.setRating(rating);
 
-
             movieDao.save(movie);
-
 
             resp.sendRedirect("movie?action=list");
 
         } catch (SQLException e) {
-            throw new ServletException("Error saving movie", e);
+            throw new ServletException("Error saving movie: " + e.getMessage(), e);
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid number format in parameters", e);
         }

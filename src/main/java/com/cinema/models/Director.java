@@ -1,9 +1,9 @@
 package com.cinema.models;
 
 public class Director {
-    int id;
-    String firstName;
-    String secondName;
+    private int id;
+    private String firstName;
+    private String secondName;
 
     public Director(int id, String firstName, String lastNAme) {
         this.id = id;

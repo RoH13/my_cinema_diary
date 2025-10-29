@@ -33,12 +33,12 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="movies" items="${movies}">
+    <c:forEach var="movie" items="${movies}">
         <tr>
             <td>${movie.id}</td>
             <td>${movie.title}</td>
-            <td>${movie.director}</td>
-            <td>${movie.genre}</td>
+            <td>${movie.director.getFirstName()} ${movie.director.getSecondName()} </td>
+            <td>${movie.genre.getName()}</td>
             <td>${movie.year}</td>
             <td>${movie.duration}</td>
             <td>${movie.rating}</td>
@@ -48,10 +48,13 @@
     <%-- Если список пуст --%>
     <c:if test="${empty movies}">
         <tr>
-            <td colspan="4" style="text-align: center;">Нет данных</td>
+            <td colspan="7" style="text-align: center;">Нет данных</td>
         </tr>
     </c:if>
     </tbody>
 </table>
+<div style="margin-top: 20px;">
+    <a href="index.jsp">← На главную</a>
+</div>
 </body>
 </html>
