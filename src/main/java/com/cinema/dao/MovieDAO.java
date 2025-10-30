@@ -6,6 +6,7 @@ import com.cinema.models.Genre;
 import com.cinema.models.Movie;
 import com.cinema.util.DataBaseConnection;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ public class MovieDAO {
             this.connection = DataBaseConnection.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("Error with database connection", e);
         }
         this.directorDao = new DirectorDAO();
         this.genreDao = new GenreDAO();

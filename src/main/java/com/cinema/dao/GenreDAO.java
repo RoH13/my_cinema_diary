@@ -3,6 +3,7 @@ package com.cinema.dao;
 import com.cinema.models.Genre;
 import com.cinema.util.DataBaseConnection;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class GenreDAO {
           connection = DataBaseConnection.getConnection();
       } catch (SQLException e) {
           throw new RuntimeException(e);
+      } catch (IOException e) {
+          throw new RuntimeException("Error with database connection ", e);
       }
   }
 

@@ -4,6 +4,7 @@ import com.cinema.models.Director;
 import com.cinema.models.Movie;
 import com.cinema.util.DataBaseConnection;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,8 @@ public class DirectorDAO {
            connection = DataBaseConnection.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("Error with database connection", e);
         }
     }
 

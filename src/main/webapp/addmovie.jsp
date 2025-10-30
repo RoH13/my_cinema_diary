@@ -53,7 +53,7 @@
 
     <div class="form-group">
         <label for="duration">Продолжительность (в минутах):</label>
-        <input type='number' id="duration" name='duration' min="1" max="500">
+        <input type='text' id="duration" name='duration'>
     </div>
 
     <div class="form-group">

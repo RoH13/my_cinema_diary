@@ -13,12 +13,7 @@ import com.cinema.util.DataBaseConnection;
 public class AppTest 
     extends TestCase
 {
-    /*public void shouldGetJdbcConnection() {
-        try(Connection connection = com.cinema.util.DataBaseConnection.getBaseConnection()){
-            assertTrue(connection.isValid(1));
-            assertFalse(connection.isClosed());
-        };
-    }*/
+
     /**
      * Create the test case
      *
