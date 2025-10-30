@@ -65,7 +65,6 @@ public class MovieServlet extends HttpServlet {
             throw new ServletException("Error loading movies list", e);
         }
     }
-
     @Override
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

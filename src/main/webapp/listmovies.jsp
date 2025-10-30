@@ -35,14 +35,15 @@
     <tbody>
     <c:forEach var="movie" items="${movies}">
         <tr>
-            <td>${movie.id}</td>
-            <td>${movie.title}</td>
+            <td>${movie.getId()}</td>
+            <td>${movie.getTitle()}</td>
             <td>${movie.director.getFirstName()} ${movie.director.getSecondName()} </td>
             <td>${movie.genre.getName()}</td>
-            <td>${movie.year}</td>
-            <td>${movie.duration}</td>
-            <td>${movie.rating}</td>
+            <td>${movie.getYear()}</td>
+            <td>${movie.getDuration()}</td>
+            <td>${movie.getRating()}</td>
         </tr>
+
     </c:forEach>
 
     <%-- Если список пуст --%>

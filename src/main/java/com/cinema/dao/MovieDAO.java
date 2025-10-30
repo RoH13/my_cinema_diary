@@ -36,7 +36,7 @@ public class MovieDAO {
     private static final String FIND_ALL_SQL = "SELECT * FROM movie";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM movie WHERE id = ?";
     private static final String FIND_BY_TITLE_SQL = "SELECT * FROM movie WHERE title = ?";
-    private static final String INSERT_SQL = "INSERT INTO movie (title, director, genre, date_year, duration, rating) VALUES (?,?,?,?,?,?)";
+    private static final String INSERT_SQL = "INSERT INTO movie (title, director, genre, year, duration, rating) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM movie WHERE id = ?";
     private static final String DELETE_BY_TITLE_SQL = "DELETE FROM movie WHERE title = ?";
     private static final String UPDATE_RATING_SQL = "UPDATE movie SET rating = ? WHERE id = ?";

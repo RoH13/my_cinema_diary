@@ -5,7 +5,9 @@
   Time: 12:20 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Add new movie</title>
@@ -29,7 +31,7 @@
         <select id="directorId" name='directorId' required>
             <option value="">-- Выберите режиссера --</option>
             <c:forEach var="director" items="${directors}">
-                <option value="${director.id}">${director.firstName} ${director.secondName}</option>
+                <option value ="${director.id}">${director.getFirstName()} ${director.getSecondName()}</option>
             </c:forEach>
         </select>
     </div>
@@ -39,19 +41,19 @@
         <select id="genreId" name='genreId' required>
             <option value="">-- Выберите жанр --</option>
             <c:forEach var="genre" items="${genres}">
-                <option value="${genre.id}">${genre.name}</option>
+                <option value="${genre.getId()}">${genre.getName()}</option>
             </c:forEach>
         </select>
     </div>
 
     <div class="form-group">
         <label for="year">Год выпуска:</label>
-        <input type='number' id="year" name='year' min="1888" max="2030" required>
+        <input type='number' id="year" name='year' min="1900">
     </div>
 
     <div class="form-group">
         <label for="duration">Продолжительность (в минутах):</label>
-        <input type='number' id="duration" name='duration' min="1" max="500" required>
+        <input type='number' id="duration" name='duration' min="1" max="500">
     </div>
 
     <div class="form-group">

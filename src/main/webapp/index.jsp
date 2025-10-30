@@ -60,6 +60,8 @@
     <div class="menu">
         <a href="movie?action=showAddForm">➕ Добавить фильм</a>
         <a href="movie?action=list">🎞️ Список фильмов</a>
+        <a href="director?action=showAddForm"> Добавить режиссера</a>
+        <a href="director?action=list"> Список режиссеров</a>
 
     </div>
 
