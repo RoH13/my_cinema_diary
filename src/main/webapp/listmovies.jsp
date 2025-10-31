@@ -23,25 +23,26 @@
 <table>
     <thead>
     <tr>
-        <th>id</th>
+
         <th>title</th>
         <th>director</th>
         <th>genre</th>
         <th>year</th>
         <th>duration</th>
         <th>rating</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <c:forEach var="movie" items="${movies}">
         <tr>
-            <td>${movie.getId()}</td>
             <td>${movie.getTitle()}</td>
-            <td>${movie.director.getFirstName()} ${movie.director.getSecondName()} </td>
+            <td><a href = "director?action=movies&id=${movie.director.getId()}"> ${movie.director.getFirstName()} ${movie.director.getSecondName()} </a> </td>
             <td>${movie.genre.getName()}</td>
             <td>${movie.getYear()}</td>
             <td>${movie.getDuration()}</td>
             <td>${movie.getRating()}</td>
+            <td><a href = "editrating.jsp?id=${movie.getId()}"> edit rating </a></td>
         </tr>
 
     </c:forEach>

@@ -24,13 +24,11 @@ public class MovieServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        try {
+
             this.directorDao = new DirectorDAO();
             this.genreDao = new GenreDAO();
             this.movieDao = new MovieDAO();
-        } catch (SQLException e) {
-            throw new ServletException("Error initializing DAOs", e);
-        }
+
     }
 
     @Override
@@ -99,5 +97,10 @@ public class MovieServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid number format in parameters", e);
         }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

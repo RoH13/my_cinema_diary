@@ -24,9 +24,13 @@
     <tbody>
     <c:forEach var="director" items="${directors}">
         <tr>
+           <td> <a href = "director?action=movies&id=${director.getId()}">
+                ${director.getFirstName()} </a></td>
 
-            <td>${director.getFirstName()}</td>
-            <td>${director.getSecondName()}</td>
+            <td> <a href = "director?action=movies&id=${director.getId()}">
+                    ${director.getSecondName()} </a> </td>
+
+
         </tr>
     </c:forEach>
 

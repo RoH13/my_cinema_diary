@@ -13,16 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DirectorDAO {
-    Connection connection;
-    public DirectorDAO() {
-        try {
-           connection = DataBaseConnection.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException("Error with database connection", e);
-        }
-    }
 
     private static final String FIND_ALL_SQL = "SELECT * FROM director";
     private static final String INSERT_SQL =
@@ -31,9 +21,11 @@ public class DirectorDAO {
     private static final String DELETE_SQL = "DELETE FROM director WHERE id = ?";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM director WHERE id = ?";
     private static final String FIND_ID_SQL = "SELECT id from director where first_name = ? and second_name = ?";
+    private static final String FIND_MOVIE_SQL = "select * from movie where director = ? order by title desc";
+
 
     public List<Director> findALL() throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(FIND_ALL_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_ALL_SQL)) {
             ResultSet rs = ps.executeQuery();
             return getListFromResultSet(rs);
         } catch (SQLException e) {
@@ -52,8 +44,23 @@ public class DirectorDAO {
         return res;
     }
 
+    public List<Movie> getMoviesByDirector(int id) throws SQLException {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_MOVIE_SQL)) {
+            ps.setInt(1,id);
+            try(ResultSet rs = ps.executeQuery()) {
+                MovieDAO movieDap = new MovieDAO();
+                List<Movie> res = movieDap.getListFromResultSet(rs);
+
+                return res;
+            }
+        } catch (SQLException e) {
+            throw new SQLException("new SQL exeption");
+        }
+    }
+
+
     public void save(Director director) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(INSERT_SQL)) {
             ps.setString(1, director.getFirstName());
             ps.setString(2, director.getSecondName());
             ps.execute();
@@ -61,7 +68,7 @@ public class DirectorDAO {
     }
 
     public void save(String firstname, String secondname) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(INSERT_SQL)) {
             ps.setString(1, firstname);
             ps.setString(2, secondname);
             ps.execute();
@@ -69,14 +76,14 @@ public class DirectorDAO {
     }
 
     public void delete(int id) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(DELETE_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(DELETE_SQL)) {
             ps.setInt(1, id);
             ps.execute();
         }
     }
 
     public Director getDirectorById(int id) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_BY_ID_SQL)) {
             ps.setInt(1, id);
             try(ResultSet rs = ps.executeQuery()) {
                 List<Director> directors = getListFromResultSet(rs);
@@ -90,7 +97,7 @@ public class DirectorDAO {
 
 
     public int getIdByDirector(Director director) throws SQLException{
-        try(PreparedStatement ps = connection.prepareStatement(FIND_ID_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_ID_SQL)) {
             ps.setString(1, director.getFirstName());
             ps.setString(2, director.getSecondName());
             ResultSet rs = ps.executeQuery();

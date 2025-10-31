@@ -12,27 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDAO {
-    Connection connection;
-    DirectorDAO directorDao;
-    GenreDAO genreDao;
-    public MovieDAO() throws SQLException {
-        try {
-            this.connection = DataBaseConnection.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException("Error with database connection", e);
-        }
-        this.directorDao = new DirectorDAO();
-        this.genreDao = new GenreDAO();
-    }
-
-    public MovieDAO(Connection connection){
-        this.connection = connection;
-        this.directorDao = new DirectorDAO();
-        this.genreDao = new GenreDAO();
-    }
-
 
 
 
@@ -48,14 +27,14 @@ public class MovieDAO {
 
 
    public List<Movie> findAll() throws SQLException {
-        try(Statement s = connection.createStatement();
+        try(Statement s = DataBaseConnection.get().createStatement();
             ResultSet rs = s.executeQuery(FIND_ALL_SQL)){
             return getListFromResultSet(rs);
         }
     }
 
     public Movie findById(int id) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
+        try (PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_BY_ID_SQL)) {
             ps.setInt(1, id);
             try(ResultSet rs = ps.executeQuery()) {
                 List<Movie> movies = getListFromResultSet(rs);
@@ -69,7 +48,7 @@ public class MovieDAO {
 
     public Movie findById(String title) throws SQLException {
 
-        try (PreparedStatement ps = connection.prepareStatement(FIND_BY_TITLE_SQL)) {
+        try (PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_BY_TITLE_SQL)) {
             ps.setString(1, title);
             try (ResultSet rs = ps.executeQuery()) {
                 List<Movie> movies = getListFromResultSet(rs);
@@ -85,7 +64,7 @@ public class MovieDAO {
 
     public void save(Movie movie) throws SQLException {
 
-        try(PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(INSERT_SQL)) {
             ps.setString(1, movie.getTitle());
             ps.setInt(2, movie.getDirector().getId());
             ps.setInt(3, movie.getGenre().getId());
@@ -102,27 +81,27 @@ public class MovieDAO {
 
 
     public void delete(int id) throws SQLException {
-       try(PreparedStatement ps = connection.prepareStatement(DELETE_BY_ID_SQL)) {
+       try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(DELETE_BY_ID_SQL)) {
            ps.setInt(1, id);
            ps.execute();
        }
     }
 
     public void deleteByTitle(String title) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement(FIND_BY_TITLE_SQL)) {
+        try (PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_BY_TITLE_SQL)) {
             ps.setString(1, title);
             ps.execute();
         }
     }
 
    public void updateRating(int id, int rating) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(UPDATE_RATING_SQL)) {
+        try(PreparedStatement ps = DataBaseConnection.get().prepareStatement(UPDATE_RATING_SQL)) {
             ps.setInt(1, rating);
             ps.setInt(2, id);
             ps.execute();
         }
     }
-    private List<Movie> getListFromResultSet(ResultSet rs) throws SQLException {
+    public List<Movie> getListFromResultSet(ResultSet rs) throws SQLException {
         List<Movie> res = new ArrayList<>();
         while(rs.next()) {
             int id = rs.getInt("id");
@@ -132,6 +111,8 @@ public class MovieDAO {
             int year = rs.getInt("year");
             int duration = rs.getInt("duration");
             int rating = rs.getInt("rating");
+            DirectorDAO directorDao = new DirectorDAO();
+            GenreDAO genreDao = new GenreDAO();
             Director director = directorDao.getDirectorById(directorId);
             Genre genre = genreDao.getGenreById(genreId);
             res.add(new Movie(id,title,director,genre,year,duration,rating));
@@ -147,6 +128,8 @@ public class MovieDAO {
         int directorId = rs.getInt("director");
         int genreId = rs.getInt("genre");
 
+        DirectorDAO directorDao = new DirectorDAO();
+        GenreDAO genreDao = new GenreDAO();
         Director director = directorDao.getDirectorById(directorId);
         Genre genre = genreDao.getGenreById(genreId);
 

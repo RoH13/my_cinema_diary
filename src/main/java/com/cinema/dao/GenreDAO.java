@@ -9,18 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenreDAO {
-  Connection connection;
-
-  public GenreDAO() {
-      try {
-          connection = DataBaseConnection.getConnection();
-      } catch (SQLException e) {
-          throw new RuntimeException(e);
-      } catch (IOException e) {
-          throw new RuntimeException("Error with database connection ", e);
-      }
-  }
-
 
     private static final String FIND_ALL_SQL = "SELECT id, name FROM genre";
     private static final String FIND_BY_ID_SQL = "SELECT id, name FROM genre WHERE id = ?";
@@ -28,7 +16,7 @@ public class GenreDAO {
 
 
     public List<Genre> findAll() throws SQLException {
-       try (PreparedStatement s = connection.prepareStatement(FIND_ALL_SQL);
+       try (PreparedStatement s = DataBaseConnection.get().prepareStatement(FIND_ALL_SQL);
         ResultSet rs = s.executeQuery();) {
            return getListFromResultSet(rs);
        } catch (SQLException e) {
@@ -46,21 +34,21 @@ public class GenreDAO {
      }
 
      public void save(Genre genre) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+        try (PreparedStatement ps = DataBaseConnection.get().prepareStatement(INSERT_SQL)) {
             ps.setString(1, genre.getName());
             ps.execute();
         }
      }
 
     public void save(String name) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement(INSERT_SQL)) {
+        try (PreparedStatement ps = DataBaseConnection.get().prepareStatement(INSERT_SQL)) {
             ps.setString(1, name);
             ps.execute();
         }
     }
 
      public Genre getGenreById(int id) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_SQL)) {
+        try (PreparedStatement ps = DataBaseConnection.get().prepareStatement(FIND_BY_ID_SQL)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 List<Genre> genres = getListFromResultSet(rs);
